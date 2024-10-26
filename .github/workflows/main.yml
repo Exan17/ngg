@@ -25,9 +25,14 @@ jobs:
       run: Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 
     - name: Set Local User Password
-      run: Set-LocalUser   -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText $Env:ADMIN_PASSWORD -Force)
+      run: Set-LocalUser  -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText $Env:ADMIN_PASSWORD -Force)
       env:
         ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
 
     - name: Create Ngrok Tunnel
       run: Start-Process -NoNewWindow -FilePath .\ngrok\ngrok.exe -ArgumentList 'tcp 3389'
+
+    - name: Get Ngrok Tunnel Info
+      run: |
+        Start-Sleep -Seconds 5
+        & .\ngrok\ngrok.exe tcp 3389
