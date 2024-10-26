@@ -32,7 +32,8 @@ jobs:
     - name: Create Ngrok Tunnel
       run: Start-Process -NoNewWindow -FilePath .\ngrok\ngrok.exe -ArgumentList 'tcp 3389'
 
-    - name: Get Ngrok Tunnel Info
-      run: |
-        Start-Sleep -Seconds 5
-        & .\ngrok\ngrok.exe tcp 3389
+    # Menghapus langkah untuk mendapatkan informasi tunnel
+    # - name: Get Ngrok Tunnel Info
+    #   run: |
+    #     Start-Sleep -Seconds 5
+    #     & .\ngrok\ngrok.exe tcp 3389
