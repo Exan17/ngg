@@ -30,10 +30,10 @@ jobs:
         ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
 
     - name: Create Ngrok Tunnel
-      run: Start-Process -NoNewWindow -FilePath .\ngrok\ngrok.exe -ArgumentList 'tcp 3389'
+      run: |
+        Start-Process -NoNewWindow -FilePath .\ngrok\ngrok.exe -ArgumentList 'tcp 3389' -RedirectStandardOutput ngrok_output.log
+        Start-Sleep -Seconds 5  # Tunggu beberapa detik untuk memastikan tunnel siap
 
-    # Menghapus langkah untuk mendapatkan informasi tunnel
-    # - name: Get Ngrok Tunnel Info
-    #   run: |
-    #     Start-Sleep -Seconds 5
-    #     & .\ngrok\ngrok.exe tcp 3389
+    - name: Display Ngrok Tunnel Info
+      run: |
+        Get-Content ngrok_output.log | Select-String -Pattern "Forwarding"
